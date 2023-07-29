@@ -1,5 +1,5 @@
 const express = require("express");
-
+const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -14,7 +14,7 @@ if (process.env.DB_COONECTION === "development") {
 const todoHandler = require("./routerHandler/todoHandler");
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 mongoose
