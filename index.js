@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const url = process.env.DB_COONECTION;
+console.log(process.env.DB_COONECTION);
+
 if (process.env.DB_COONECTION === "development") {
   const dotenv = require("dotenv");
   dotenv.config();
