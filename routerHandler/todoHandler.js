@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
   try {
     const todos = await Todo.find({});
     res.status(200).json({
-      data: todos,
+      todos,
       message: "Success",
     });
   } catch (err) {
