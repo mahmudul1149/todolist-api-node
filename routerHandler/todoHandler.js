@@ -50,33 +50,40 @@ router.post("/all", async (req, res) => {
   }
 });
 router.put("/:id", async (req, res) => {
-  const todo = req.body;
-  const id = parseInt(req.params.id);
+  const { title, author, released } = req.body;
   try {
-    const updated = await Todo.updateOne(
-      { id },
-      { $set: { title: todo.title } }
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          title: title,
+          author: author,
+          released: released,
+        },
+      },
+      {
+        new: true,
+        useFindAndModify: false,
+      }
     );
-    if (updated.nModified === 0) {
-      res.send({
-        success: false,
-        message: "Could not update todo",
-      });
-    } else {
-      res.send({
-        success: true,
-        todo,
-        message: "Updated Succesfully",
+
+    if (!updatedTodo) {
+      return res.status(404).json({
+        error: "Todo not found!",
       });
     }
-  } catch (error) {
-    console.error("Error updating todo:", error);
-    res.status(500).send({
-      success: false,
-      message: "An error occurred while updating the todo",
+
+    return res.status(200).json({
+      message: "Todo was updated successfully!",
+      updatedTodo,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: "There was a server-side error!",
     });
   }
 });
+
 router.delete("/:id", async (req, res) => {
   try {
     await Todo.deleteOne({ _id: req.params.id });
