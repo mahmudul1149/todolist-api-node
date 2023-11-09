@@ -30,6 +30,7 @@ router.post("/", async (req, res) => {
     });
   }
 });
+
 router.post("/all", async (req, res) => {
   try {
     const todosToInsert = req.body;
